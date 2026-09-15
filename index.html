@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICT CIE 0417 — Exam Notebook by Tr.WaiLinHtet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;600;700&family=Literata:ital,wght@0,400;0,500;0,600;1,400&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FBF8F1;
+    --paper-2:#F5F0E4;
+    --line:#DCD4C0;
+    --ink:#272B33;
+    --ink-soft:#5C6070;
+    --pen:#2F4B7C;
+    --pen-light:#5C7AAE;
+    --highlight:#F4D35E;
+    --highlight-soft:#FCEFC0;
+    --margin:#C1495B;
+    --tip:#4F7A5B;
+    --tip-soft:#E4EEE2;
+    --warn:#B5442E;
+    --warn-soft:#F7E3DD;
+    --tab:#EFE7D4;
+    --code:#EFEAE0;
+    --shadow: 0 2px 10px rgba(39,43,51,0.08);
+    --radius: 3px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Literata', Georgia, serif;
+    font-size:17px;
+    line-height:1.65;
+  }
+  h1,h2,h3,h4{
+    font-family:'Zilla Slab', Georgia, serif;
+    color:var(--ink);
+    margin:0 0 .5em 0;
+    line-height:1.2;
+  }
+  p{margin:0 0 1em 0; max-width:70ch;}
+  .hand{font-family:'Caveat', cursive;}
+  a{color:var(--pen);}
+
+  /* ===== Layout shell ===== */
+  .shell{
+    display:grid;
+    grid-template-columns:230px 1fr;
+    min-height:100vh;
+  }
+  @media (max-width:900px){
+    .shell{grid-template-columns:1fr;}
+  }
+
+  /* ===== Sidebar (spiral notebook tabs) ===== */
+  .sidebar{
+    background:var(--tab);
+    border-right:2px solid var(--line);
+    position:sticky;
+    top:0;
+    height:100vh;
+    overflow-y:auto;
+    padding:22px 0 22px 18px;
+    background-image: radial-gradient(circle 4px, #fff 4px, transparent 4px);
+    background-size: 100% 34px;
+    background-position: -4px 10px;
+  }
+  @media (max-width:900px){
+    .sidebar{
+      position:relative; height:auto; padding:14px;
+      background-image:none; border-right:none; border-bottom:2px solid var(--line);
+      overflow-x:auto;
+    }
+  }
+  .side-title{
+    padding:0 14px 16px 20px;
+    font-family:'Caveat', cursive;
+    font-size:1.5rem;
+    color:var(--pen);
+    border-bottom:1px dashed var(--line);
+    margin-bottom:10px;
+  }
+  @media (max-width:900px){ .side-title{display:none;} }
+  .side-nav{list-style:none; margin:0; padding:0 10px 0 20px;}
+  @media (max-width:900px){
+    .side-nav{display:flex; gap:8px; padding:0; white-space:nowrap;}
+  }
+  .side-nav li{margin:2px 0;}
+  .side-nav a{
+    display:block;
+    text-decoration:none;
+    color:var(--ink-soft);
+    font-family:'Zilla Slab', serif;
+    font-size:0.86rem;
+    font-weight:600;
+    padding:8px 10px;
+    border-radius: 4px 0 0 4px;
+    border-left:3px solid transparent;
+  }
+  .side-nav a:hover{color:var(--pen); border-left-color:var(--pen-light);}
+  .side-nav a.active{color:var(--pen); background:var(--paper); border-left-color:var(--pen);}
+  .side-nav .n{color:var(--margin); font-family:'Caveat',cursive; font-size:1.05rem; margin-right:4px;}
+
+  /* ===== Main column ===== */
+  main{padding:0;}
+  .page{
+    position:relative;
+    max-width:840px;
+    margin:0 auto;
+    padding:56px 48px 60px 56px;
+    border-left:2px solid var(--margin);
+    min-height:100vh;
+    background-image: repeating-linear-gradient(var(--paper) 0 33px, var(--line) 33px 34px);
+    background-position: 0 200px;
+  }
+  @media (max-width:640px){
+    .page{padding:36px 20px 44px 26px; border-left-width:1.5px;}
+  }
+
+  /* ===== Cover ===== */
+  .cover{padding-top:6vh; padding-bottom:40px;}
+  .cover .kicker{
+    font-family:'Caveat', cursive;
+    color:var(--margin);
+    font-size:1.3rem;
+    transform:rotate(-2deg);
+    display:inline-block;
+    margin-bottom:6px;
+  }
+  .cover h1{
+    font-size:3.4rem;
+    letter-spacing:-0.5px;
+    font-weight:700;
+  }
+  .cover h1 span{color:var(--pen);}
+  .cover .subtitle{
+    font-family:'Zilla Slab', serif;
+    font-size:1.15rem;
+    color:var(--ink-soft);
+    margin-top:6px;
+  }
+  .cover .byline{
+    margin-top:26px;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 18px;
+    background:var(--highlight-soft);
+    border:1px solid var(--highlight);
+    border-radius:var(--radius);
+    font-family:'Zilla Slab', serif;
+    font-weight:600;
+    font-size:0.95rem;
+  }
+  .cover .byline .avatar{
+    width:34px;height:34px;border-radius:50%;
+    background:var(--pen); color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Caveat',cursive; font-size:1.2rem; font-weight:700;
+  }
+  .cover .meta-row{
+    margin-top:22px;
+    display:flex; gap:22px; flex-wrap:wrap;
+    font-size:0.85rem; color:var(--ink-soft);
+    font-family:'Zilla Slab', serif;
+  }
+  .cover .meta-row b{color:var(--ink);}
+
+  .toc{
+    margin-top:38px;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+  }
+  @media (max-width:640px){ .toc{grid-template-columns:1fr;} }
+  .toc a{
+    text-decoration:none; color:var(--ink);
+    display:flex; align-items:baseline; gap:10px;
+    padding:10px 12px;
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    font-family:'Zilla Slab', serif;
+    font-size:0.92rem;
+    font-weight:600;
+  }
+  .toc a:hover{border-color:var(--pen); color:var(--pen);}
+  .toc a .num{font-family:'Caveat',cursive; font-size:1.4rem; color:var(--margin);}
+
+  /* ===== Chapters ===== */
+  .chapter{padding:56px 0; border-top:1px dashed var(--line);}
+  .chapter:first-of-type{border-top:none;}
+  .chapter-head{display:flex; align-items:center; gap:16px; margin-bottom:6px;}
+  .chapter-head .badge{
+    flex:0 0 auto;
+    width:54px;height:54px;border-radius:50%;
+    background:var(--pen); color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Caveat',cursive; font-weight:700; font-size:1.7rem;
+    box-shadow:var(--shadow);
+  }
+  .chapter-head h2{font-size:1.7rem;}
+  .chapter-intro{color:var(--ink-soft); font-style:italic; margin-bottom:22px;}
+
+  figure.clipping{
+    float:right;
+    width:270px;
+    margin:0 0 14px 22px;
+    background:#fff;
+    padding:10px 10px 34px 10px;
+    box-shadow:var(--shadow);
+    transform:rotate(1.6deg);
+    position:relative;
+  }
+  figure.clipping::before{
+    content:"";
+    position:absolute; top:-10px; left:38%;
+    width:70px; height:22px;
+    background:rgba(244,211,94,0.75);
+    border:1px solid rgba(0,0,0,0.05);
+    transform:rotate(-4deg);
+  }
+  figure.clipping img{width:100%; display:block; height:170px; object-fit:cover;}
+  figure.clipping figcaption{
+    font-family:'Caveat', cursive;
+    font-size:1.05rem;
+    color:var(--ink-soft);
+    text-align:center;
+    padding-top:8px;
+  }
+  @media (max-width:640px){
+    figure.clipping{float:none; width:100%; margin:0 0 20px 0; transform:none;}
+  }
+
+  h3{font-size:1.18rem; margin-top:1.6em; color:var(--pen);}
+  h3 .tag{
+    display:inline-block;
+    font-family:'Zilla Slab',serif;
+    font-size:0.6em; vertical-align:middle;
+    color:var(--ink-soft); font-weight:400;
+  }
+  h4{font-size:1rem; margin-top:1.2em; font-family:'Zilla Slab',serif; text-transform:none;}
+
+  ul, ol{padding-left:1.3em; max-width:70ch;}
+  li{margin-bottom:0.45em;}
+  strong{color:var(--ink); background:linear-gradient(transparent 60%, var(--highlight-soft) 60%);}
+
+  .term{
+    color:var(--pen);
+    font-weight:600;
+    border-bottom:1px dotted var(--pen-light);
+  }
+
+  /* callout boxes */
+  .box{
+    margin:1.3em 0;
+    padding:14px 18px;
+    border-radius:var(--radius);
+    border:1px solid var(--line);
+    background:var(--paper-2);
+  }
+  .box h4{margin-top:0; font-size:0.82rem; text-transform:uppercase; letter-spacing:0.06em; font-family:'Zilla Slab',serif;}
+  .box.tip{background:var(--tip-soft); border-color:#c9dcc9;}
+  .box.tip h4{color:var(--tip);}
+  .box.warn{background:var(--warn-soft); border-color:#e6c3b6;}
+  .box.warn h4{color:var(--warn);}
+  .box.note{
+    background:var(--highlight-soft); border-color:var(--highlight);
+    transform:rotate(-0.4deg);
+  }
+  .box.note h4{color:#8a6d0c;}
+  .box p:last-child, .box ul:last-child{margin-bottom:0;}
+
+  .glossary{
+    display:grid; gap:10px;
+    grid-template-columns:1fr 1fr;
+    margin:1.2em 0;
+  }
+  @media (max-width:640px){ .glossary{grid-template-columns:1fr;} }
+  .glossary .g-item{
+    background:#fff; border:1px solid var(--line); border-left:4px solid var(--pen);
+    padding:10px 14px; border-radius:var(--radius); box-shadow:var(--shadow);
+  }
+  .glossary .g-item b{display:block; font-family:'Zilla Slab',serif; color:var(--ink); margin-bottom:2px; font-size:0.95rem;}
+  .glossary .g-item span{font-size:0.9rem; color:var(--ink-soft);}
+
+  table{
+    width:100%; border-collapse:collapse; margin:1.3em 0;
+    font-size:0.92rem; background:#fff; box-shadow:var(--shadow);
+  }
+  caption{caption-side:top; text-align:left; font-family:'Caveat',cursive; font-size:1.2rem; color:var(--margin); margin-bottom:6px;}
+  th, td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:var(--pen); color:#fff; font-family:'Zilla Slab',serif; font-weight:600;}
+  tr:nth-child(even) td{background:var(--paper-2);}
+
+  .flow{
+    display:flex; align-items:center; flex-wrap:wrap; gap:8px;
+    margin:1.2em 0; font-family:'Zilla Slab',serif; font-weight:600; font-size:0.88rem;
+  }
+  .flow .step{
+    background:#fff; border:1.5px solid var(--pen); color:var(--pen);
+    padding:7px 12px; border-radius:20px;
+  }
+  .flow .arrow{color:var(--margin); font-size:1.1rem;}
+
+  .checklist{list-style:none; padding-left:0; margin:1em 0;}
+  .checklist li{
+    padding-left:30px; position:relative; margin-bottom:8px; font-size:0.96rem;
+  }
+  .checklist li::before{
+    content:"";
+    position:absolute; left:0; top:2px;
+    width:18px; height:18px;
+    border:2px solid var(--pen);
+    border-radius:3px;
+  }
+
+  .recap{
+    margin-top:26px; padding:18px 20px;
+    background:var(--tab); border:1px dashed var(--pen-light); border-radius:var(--radius);
+  }
+  .recap h4{color:var(--pen); margin-top:0; font-size:0.95rem; text-transform:uppercase; letter-spacing:0.05em;}
+
+  footer{
+    text-align:center; padding:50px 20px 70px;
+    color:var(--ink-soft); font-size:0.85rem;
+    border-top:1px dashed var(--line);
+  }
+  footer .hand{font-size:1.3rem; color:var(--pen);}
+
+  ::selection{background:var(--highlight);}
+
+  /* ===== Login / Register UI ===== */
+  .auth-widget{
+    position:fixed;
+    top:16px; right:18px;
+    z-index:60;
+    display:flex; align-items:center; gap:10px;
+  }
+  .auth-pill{
+    display:none;
+    align-items:center; gap:8px;
+    background:var(--highlight-soft);
+    border:1px solid var(--highlight);
+    box-shadow:var(--shadow);
+    padding:8px 16px;
+    border-radius:20px;
+    font-family:'Zilla Slab', serif;
+    font-weight:600;
+    font-size:0.85rem;
+    color:var(--ink);
+    cursor:pointer;
+    transform:rotate(-1deg);
+    transition:transform .15s ease;
+  }
+  .auth-pill:hover{transform:rotate(0deg);}
+  .auth-pill .dot{width:8px;height:8px;border-radius:50%;background:var(--pen);}
+  .auth-user{
+    display:none;
+    align-items:center; gap:10px;
+    background:#fff;
+    border:1px solid var(--line);
+    box-shadow:var(--shadow);
+    padding:6px 8px 6px 14px;
+    border-radius:20px;
+    font-family:'Zilla Slab', serif;
+    font-size:0.85rem;
+  }
+  .auth-user .avatar-sm{
+    width:26px;height:26px;border-radius:50%;
+    background:var(--pen); color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Caveat',cursive; font-size:1.05rem; font-weight:700;
+  }
+  .auth-user button{
+    border:none; background:none; cursor:pointer;
+    color:var(--margin); font-family:'Zilla Slab',serif; font-weight:600;
+    font-size:0.78rem; text-decoration:underline;
+  }
+  @media (max-width:640px){
+    .auth-widget{top:auto; bottom:14px; right:14px;}
+  }
+
+  /* Full Screen Auth Overlay (Entrance Gate) */
+  .auth-overlay{
+    display:flex;
+    position:fixed; inset:0; z-index:999999;
+    background:rgba(20, 24, 33, 0.85);
+    backdrop-filter:blur(6px);
+    align-items:center; justify-content:center;
+    padding:20px;
+  }
+  .auth-card{
+    width:100%; max-width:400px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-left:6px solid var(--pen);
+    border-radius:6px;
+    box-shadow:0 15px 40px rgba(0,0,0,0.35);
+    padding:30px 28px;
+    position:relative;
+  }
+  .auth-card h3{
+    margin-top:0; font-size:1.6rem;
+    font-family:'Caveat',cursive; color:var(--pen); font-weight:700;
+  }
+  .auth-tabs{
+    display:flex; gap:4px; margin-bottom:18px;
+    border-bottom:1px dashed var(--line);
+  }
+  .auth-tab{
+    flex:1; text-align:center; padding:8px 4px;
+    font-family:'Zilla Slab',serif; font-weight:600; font-size:0.95rem;
+    color:var(--ink-soft); cursor:pointer; border-bottom:2px solid transparent;
+    margin-bottom:-1px;
+  }
+  .auth-tab.active{color:var(--pen); border-bottom-color:var(--pen);}
+  .auth-form{display:none; flex-direction:column; gap:14px;}
+  .auth-form.active{display:flex;}
+  .auth-field label{
+    display:block; font-family:'Zilla Slab',serif; font-size:0.82rem;
+    font-weight:600; color:var(--ink-soft); margin-bottom:4px;
+    text-transform:uppercase; letter-spacing:0.04em;
+  }
+  .auth-field input{
+    width:100%; padding:10px 12px;
+    border:1px solid var(--line);
+    background:#fff;
+    border-radius:4px;
+    font-family:'Literata',serif; font-size:0.98rem; color:var(--ink);
+    outline:none;
+  }
+  .auth-field input:focus{border-color:var(--pen);}
+  .auth-submit{
+    margin-top:6px;
+    background:var(--pen); color:#fff; border:none;
+    padding:12px 16px; border-radius:20px; cursor:pointer;
+    font-family:'Zilla Slab',serif; font-weight:600; font-size:0.95rem;
+    box-shadow:var(--shadow);
+  }
+  .auth-submit:hover{background:var(--pen-light);}
+  .auth-msg{
+    font-family:'Zilla Slab',serif; font-size:0.85rem;
+    padding:8px 10px; border-radius:var(--radius); display:none;
+  }
+  .auth-msg.show{display:block;}
+  .auth-msg.err{background:var(--warn-soft); color:var(--warn);}
+  .auth-msg.ok{background:var(--tip-soft); color:var(--tip);}
+  .auth-note{
+    margin-top:16px; font-size:0.8rem; color:var(--ink-soft);
+    font-family:'Zilla Slab',serif; line-height:1.5;
+  }
+</style>
+</head>
+<body>
+
+<!-- ENTRANCE GATE OVERLAY (Blocks the webpage completely until registered/logged in) -->
+<div class="auth-overlay" id="authOverlay">
+  <div class="auth-card">
+    <h3>Student Entrance 📓</h3>
+    <div class="auth-tabs">
+      <div class="auth-tab active" data-tab="register">Register (အကောင့်သစ်)</div>
+      <div class="auth-tab" data-tab="login">Login (အကောင့်ဝင်)</div>
+    </div>
+
+    <form class="auth-form active" id="registerForm">
+      <div class="auth-field"><label>Full Name (ကျောင်းသားအမည်)</label><input type="text" id="regName" placeholder="e.g. Aung Aung" required></div>
+      <div class="auth-field"><label>Student ID / Username</label><input type="text" id="regUser" placeholder="e.g. ict-01" autocomplete="username" required></div>
+      <div class="auth-field"><label>Password</label><input type="password" id="regPass" autocomplete="new-password" required></div>
+      <div class="auth-msg" id="regMsg"></div>
+      <button type="submit" class="auth-submit" id="regSubmitBtn">စာဖတ်ရန် ဝင်မည်</button>
+    </form>
+
+    <form class="auth-form" id="loginForm">
+      <div class="auth-field"><label>Username</label><input type="text" id="loginUser" autocomplete="username" required></div>
+      <div class="auth-field"><label>Password</label><input type="password" id="loginPass" autocomplete="current-password" required></div>
+      <div class="auth-msg" id="loginMsg"></div>
+      <button type="submit" class="auth-submit" id="loginSubmitBtn">Log in</button>
+    </form>
+
+    <p class="auth-note">ကျောင်းသားအမည်နှင့် ဝင်ရောက်ဖတ်ရှုသည့် အချိန်ကို Attendance စာရင်းအဖြစ် အလိုအလျောက် မှတ်တမ်းတင်ပါမည်။</p>
+  </div>
+</div>
+
+<!-- FLOATING PROFILE BADGE -->
+<div class="auth-widget">
+  <div class="auth-pill" id="authOpenBtn"><span class="dot"></span>Login / Register</div>
+  <div class="auth-user" id="authUserBox">
+    <div class="avatar-sm" id="authAvatar">?</div>
+    <span id="authUserName">Student</span>
+    <button id="authLogoutBtn">log out</button>
+  </div>
+</div>
+
+<div class="shell">
+  <!-- SIDEBAR -->
+  <nav class="sidebar" aria-label="Chapter navigation">
+    <div class="side-title">ICT 0417 Notebook</div>
+    <ul class="side-nav" id="sideNav">
+      <li><a href="#cover"><span class="n"></span>Cover</a></li>
+      <li><a href="#ch1"><span class="n">1</span>Computer Systems</a></li>
+      <li><a href="#ch2"><span class="n">2</span>Input &amp; Output</a></li>
+      <li><a href="#ch3"><span class="n">3</span>Storage</a></li>
+      <li><a href="#ch4"><span class="n">4</span>Networks</a></li>
+      <li><a href="#ch5"><span class="n">5</span>Effects of IT</a></li>
+      <li><a href="#ch6"><span class="n">6</span>ICT Applications</a></li>
+      <li><a href="#ch7"><span class="n">7</span>Systems Life Cycle</a></li>
+      <li><a href="#ch8"><span class="n">8</span>Safety &amp; Security</a></li>
+      <li><a href="#ch9"><span class="n">9</span>Audiences</a></li>
+      <li><a href="#ch10"><span class="n">10</span>Communication</a></li>
+    </ul>
+  </nav>
+
+  <!-- MAIN -->
+  <main>
+    <div class="page">
+
+      <!-- COVER -->
+      <section class="cover" id="cover">
+        <span class="kicker hand">Cambridge IGCSE™</span>
+        <h1>ICT <span>CIE 0417</span></h1>
+        <div class="subtitle">Exam Revision Notebook — Theory Notes, Chapters 1–10</div>
+
+        <div class="byline">
+          <div class="avatar">W</div>
+          <div>Created by <strong>Tr. Wai Lin Htet</strong></div>
+        </div>
+
+        <div class="meta-row">
+          <div><b>Syllabus:</b> Cambridge IGCSE ICT 0417</div>
+          <div><b>Format:</b> Notebook-style revision notes</div>
+          <div><b>Use:</b> Read, revise, tick off before the exam</div>
+        </div>
+
+        <div class="box tip" style="margin-top:30px; max-width:70ch;">
+          <h4>How to use this notebook</h4>
+          <p style="margin:0;">Go chapter by chapter. Yellow boxes are <strong>key terms</strong> — learn the full definition, not just the word, because CIE examiners give marks for detail, not for repeating the word back. Green boxes are exam tips. Tick the recap checklist at the end of each chapter before moving on.</p>
+        </div>
+
+        <div class="toc">
+          <a href="#ch1"><span class="num">1</span> Types &amp; Components of Computer Systems</a>
+          <a href="#ch2"><span class="num">2</span> Input &amp; Output Devices</a>
+          <a href="#ch3"><span class="num">3</span> Storage Devices &amp; Media</a>
+          <a href="#ch4"><span class="num">4</span> Networks &amp; the Effects of Using Them</a>
+          <a href="#ch5"><span class="num">5</span> The Effects of Using IT</a>
+          <a href="#ch6"><span class="num">6</span> ICT Applications</a>
+          <a href="#ch7"><span class="num">7</span> The Systems Life Cycle</a>
+          <a href="#ch8"><span class="num">8</span> Safety &amp; Security</a>
+          <a href="#ch9"><span class="num">9</span> Audiences</a>
+          <a href="#ch10"><span class="num">10</span> Communication</a>
+        </div>
+      </section>
+
+      <!-- CHAPTER 1 -->
+      <section class="chapter" id="ch1">
+        <figure class="clipping">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Computer-motherboard.jpg" alt="Computer motherboard showing internal hardware components">
+          <figcaption>the motherboard connects everything</figcaption>
+        </figure>
+        <div class="chapter-head"><div class="badge hand">1</div><h2>Types &amp; Components of Computer Systems</h2></div>
+        <p class="chapter-intro">Hardware, the CPU, signals, software types, memory, storage overview, OS interfaces, computer categories and emerging tech.</p>
+
+        <h3>1.1 Hardware</h3>
+        <p><strong>Internal hardware</strong> lives inside the system unit:</p>
+        <div class="glossary">
+          <div class="g-item"><b>CPU</b><span>Central Processing Unit — the primary processor that interprets and executes system instructions.</span></div>
+          <div class="g-item"><b>Motherboard</b><span>The main printed circuit board that connects every internal component so they can communicate.</span></div>
+          <div class="g-item"><b>RAM</b><span>Random Access Memory — volatile primary memory used for temporary data storage while processing.</span></div>
+          <div class="g-item"><b>HDD / SSD</b><span>Secondary storage devices used for persistent, non-volatile data storage.</span></div>
+          <div class="g-item"><b>NIC</b><span>Network Interface Card — wired (Ethernet) or wireless (WNIC) hardware that connects a device to a network.</span></div>
+          <div class="g-item"><b>GPU</b><span>Graphics Processing Unit — a specialised processor for rendering graphics, 3D images and video.</span></div>
+        </div>
+        <p><strong>External hardware (peripherals):</strong> Input devices (mouse, keyboard, microphone, scanner, webcam) enter data; output devices (speaker, monitor, printer, projector, actuator) present processed data to the user.</p>
+
+        <h3>1.2 CPU Components</h3>
+        <ul>
+          <li><span class="term">ALU</span> (Arithmetic Logic Unit) — performs arithmetic calculations (add, subtract) and logical decisions (AND, OR, comparisons).</li>
+          <li><span class="term">CU</span> (Control Unit) — coordinates and manages the flow of data and the execution of instructions across the processor and the system.</li>
+        </ul>
+
+        <h3>1.3 Signals &amp; Data Conversion</h3>
+        <p>Computers only understand digital data (0s and 1s). Real-world data from sensors or microphones is analogue, so it must be converted.</p>
+        <div class="flow">
+          <div class="step">Analogue input (sensor/mic)</div><div class="arrow">→</div>
+          <div class="step">ADC</div><div class="arrow">→</div>
+          <div class="step">Digital data for CPU</div>
+        </div>
+        <div class="flow">
+          <div class="step">Digital output</div><div class="arrow">→</div>
+          <div class="step">DAC</div><div class="arrow">→</div>
+          <div class="step">Analogue output (speaker/actuator/motor)</div>
+        </div>
+
+        <h3>1.4 Software Types</h3>
+        <h4>Application software</h4>
+        <p>Provides the services a user needs for a specific task: word processing, spreadsheets, database management (DBMS), control &amp; measurement software, apps/applets, video editing, graphics editing (bitmap vs vector), audio editing, and CAD (Computer-Aided Design) for precise 2D/3D models and cost estimation.</p>
+        <h4>System software</h4>
+        <p>Manages the hardware and provides the platform application software runs on:</p>
+        <div class="glossary">
+          <div class="g-item"><b>Compiler</b><span>Translates high-level code into machine code all at once, producing an independent executable file.</span></div>
+          <div class="g-item"><b>Linker</b><span>Links separate object code files and compiled libraries into one executable program.</span></div>
+          <div class="g-item"><b>Device driver</b><span>Lets the OS communicate with and control a specific hardware device, e.g. a printer or graphics card.</span></div>
+          <div class="g-item"><b>Operating System</b><span>Manages hardware resources (RAM, CPU cycles) and provides a user interface, e.g. Windows, macOS, iOS.</span></div>
+          <div class="g-item"><b>Utilities</b><span>Support software that maintains, optimises and protects the system — antivirus, disk defragmenters, backup tools.</span></div>
+        </div>
+
+        <h3>1.5 Primary Memory</h3>
+        <ul>
+          <li><span class="term">RAM</span> — temporary, volatile memory (loses data when powered off); holds the running apps, OS components and data in active use.</li>
+          <li><span class="term">ROM</span> — permanent, non-volatile memory (keeps data with no power); stores the BIOS and the bootstrap loader (start-up instructions).</li>
+        </ul>
+
+        <h3>1.6 Storage Technologies Overview</h3>
+        <ul>
+          <li><strong>Magnetic</strong> — magnetised platters or tape (HDD, magnetic tape).</li>
+          <li><strong>Solid state</strong> — flash memory chips (NAND), no moving parts (SSD, USB, SD cards).</li>
+          <li><strong>Optical</strong> — a laser reads/writes pits and lands on a reflective disc (CD, DVD, Blu-ray).</li>
+          <li><strong>Cloud</strong> — files stored on remote internet servers across public, private or hybrid environments.</li>
+        </ul>
+
+        <h3>1.7 Operating System User Interfaces <span class="tag">learn advantages AND disadvantages</span></h3>
+        <table>
+          <caption>Interface types compared</caption>
+          <tr><th>Interface</th><th>Advantages</th><th>Disadvantages</th></tr>
+          <tr><td><strong>CLI</strong> (Command Line)</td><td>Direct control; not limited to fixed options; can change low-level settings; fast, low memory use</td><td>Commands must be memorised; slow, error-prone typing; needs exact spelling/syntax</td></tr>
+          <tr><td><strong>GUI</strong> (Graphical)</td><td>No commands to remember; user-friendly WIMP (Windows, Icons, Menus, Pointer); simple mouse/touchpad control</td><td>Uses much more RAM than CLI; limited to the options shown on screen; needs a complex, slower OS</td></tr>
+          <tr><td><strong>Dialogue-based</strong> (voice)</td><td>Hands-free; very accessible for physical disabilities; can work as a biometric security feature</td><td>Unreliable with noise/accents; complex setup; user must know the exact recognised keywords</td></tr>
+          <tr><td><strong>Gesture-based</strong></td><td>No physical device needed; very natural; no training required</td><td>Accidental movements can trigger actions; short sensor range (~1.5 m); limited pre-set gestures</td></tr>
+        </table>
+
+        <h3>1.8 Computer Categories &amp; Processing</h3>
+        <p><strong>Categories:</strong> Desktop/All-in-One, Mobile computers (laptop, tablet, smartphone, smartwatch), Embedded computer (built into appliances like a washing machine), Server, Mainframe (bulk financial transactions), Supercomputer (scientific calculations), Minicomputer, Microcomputer, AI computers, and Quantum computers.</p>
+        <p><strong>Binary vs Quantum:</strong> traditional microcomputers process bits as either 0 or 1. Quantum computers use <span class="term">qubits</span>, which use superposition to exist as 0, 1, or both at once — enabling far more complex calculations.</p>
+
+        <h3>1.9 Emerging Technologies</h3>
+        <ul>
+          <li><strong>Artificial Intelligence (AI)</strong> — systems that simulate human intelligence: natural language processing (translation, voice assistants), smartphone facial recognition and predictive text, and autonomous vehicles that navigate and react in real time.</li>
+          <li><strong>Immersive tech</strong> — Augmented Reality (AR) overlays digital content on the real world (e.g. navigation heads-up display); Virtual Reality (VR) fully immerses the user in a generated 3D world using a headset; Mixed Reality (MR) blends real and virtual objects that interact in real time.</li>
+        </ul>
+
+        <div class="box tip">
+          <h4>Exam tip</h4>
+          <p>If asked to "describe" a difference (e.g. RAM vs ROM, or CLI vs GUI), always give a point for <em>each</em> side — one mark for RAM being volatile/temporary, another for ROM being non-volatile/permanent. Don't just name them.</p>
+        </div>
+
+        <div class="recap">
+          <h4>Quick recap — Chapter 1</h4>
+          <ul class="checklist">
+            <li>Name 3 internal and 3 external hardware devices</li>
+            <li>Explain the job of the ALU and the CU</li>
+            <li>Describe the ADC → CPU → DAC signal path</li>
+            <li>List 3 application software types and 3 system software types</li>
+            <li>Compare RAM and ROM</li>
+            <li>Give one advantage and one disadvantage of CLI and GUI</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- CHAPTER 2 -->
+      <section class="chapter" id="ch2">
+        <figure class="clipping">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Standard%20white%20computer%20keyboard.jpg" alt="A standard computer keyboard, a manual input device">
+          <figcaption>manual input devices</figcaption>
+        </figure>
+        <div class="chapter-head"><div class="badge hand">2</div><h2>Input &amp; Output Devices</h2></div>
+        <p class="chapter-intro">Manual input, sensors, direct data entry, cards, barcodes/QR codes, and every output device you need for the exam.</p>
+
+        <h3>2.1 Manual Input Devices &amp; Sensors</h3>
+        <ul>
+          <li><strong>Keyboard</strong> — fast for skilled typists but slower than direct data entry and prone to typing errors.</li>
+          <li><strong>Numeric keypad</strong> — used at ATMs and POS terminals for fast numeric/PIN entry.</li>
+          <li><strong>Pointing devices</strong> — mouse, touchpad, tracker ball, joystick, driving wheel; control the on-screen cursor.</li>
+          <li><strong>Scanner</strong> — converts paper documents into digital form, often using <span class="term">OCR</span> (Optical Character Recognition) to turn a scanned image of text into editable text.</li>
+          <li><strong>Digital camera</strong> and <strong>microphone</strong> — capture images and analogue sound respectively.</li>
+        </ul>
+        <div class="box note">
+          <h4>Key term, in full</h4>
+          <p><strong>Sensor</strong> — a device that measures a physical property (temperature, pressure, light, sound, moisture, pH) in the real world. The processing loop is: <em>Sensor (analogue) → ADC → microprocessor compares the reading with preset parameters → DAC → actuator/motor/alarm reacts.</em></p>
+        </div>
+
+        <h3>2.2 Direct Data Entry, Cards &amp; Barcodes</h3>
+        <div class="glossary">
+          <div class="g-item"><b>OMR</b><span>Optical Mark Recognition — reads pre-printed marks in fixed positions, e.g. multiple-choice exam sheets or lottery tickets.</span></div>
+          <div class="g-item"><b>OCR</b><span>Optical Character Recognition — scans printed or handwritten text and converts it into editable digital text.</span></div>
+          <div class="g-item"><b>MICR</b><span>Magnetic Ink Character Recognition — reads the special magnetic ink characters at the bottom of bank cheques for automated processing.</span></div>
+          <div class="g-item"><b>RFID / NFC</b><span>Radio Frequency Identification / Near Field Communication — contactless tracking and payment technology.</span></div>
+        </div>
+        <table>
+          <caption>Barcode (1D) vs QR Code (2D)</caption>
+          <tr><th>Feature</th><th>Barcode (1D)</th><th>QR Code (2D)</th></tr>
+          <tr><td>Data direction</td><td>Horizontal only</td><td>Horizontal and vertical matrix</td></tr>
+          <tr><td>Storage capacity</td><td>Low — numeric codes only</td><td>High — URLs, text, media, contact details</td></tr>
+          <tr><td>Scanning method</td><td>Laser scanner, needs direct alignment</td><td>Smartphone camera or scanner, any angle</td></tr>
+        </table>
+
+        <h3>2.3 Output Devices, Displays, Printers &amp; Projectors</h3>
+        <p><strong>Displays:</strong> CRT (heavy, legacy, hot); LCD (flat panel, CCFL backlight); LED (LCD backlit by LEDs — brighter, thinner, more efficient); OLED (self-emissive pixels, true blacks, flexible); IPS (wide viewing angles, accurate colour).</p>
+        <p><strong>Printers:</strong> Laser (fast, dry toner, crisp text for offices); Inkjet (liquid ink droplets, great for photos, cheaper but slower and can smudge when wet); 3D printer (builds solid objects layer-by-layer from a CAD model); Dot-matrix (impact printer, noisy, used for continuous or multi-part carbon-copy paper).</p>
+        <div class="box tip">
+          <h4>3D printing in medicine</h4>
+          <p>3D printing starts with a CAD model. Applications include custom prosthetic limbs (faster and cheaper than traditional manufacturing), bioprinted tissue to repair damaged organs and reduce transplant waiting lists, and biodegradable artificial blood vessels used in surgery.</p>
+        </div>
+        <p><strong>Projectors:</strong> DLP uses tiny micro-mirrors for high contrast and portability; LCD projectors use three glass panels (red, green, blue) for bright, colour-accurate images.</p>
+
+        <div class="recap">
+          <h4>Quick recap — Chapter 2</h4>
+          <ul class="checklist">
+            <li>Give one advantage and one disadvantage of a keyboard vs direct data entry</li>
+            <li>Explain the difference between OMR, OCR and MICR</li>
+            <li>Compare a barcode and a QR code</li>
+            <li>Compare a laser and an inkjet printer</li>
+            <li>Describe the sensor → ADC → microprocessor → DAC → actuator loop</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- CHAPTER 3 -->
+      <section class="chapter" id="ch3">
+        <figure class="clipping">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/HDD%20and%20SSD%2020180314.jpg" alt="A hard disk drive (HDD) next to a solid state drive (SSD)">
+          <figcaption>HDD (left) vs SSD (right)</figcaption>
+        </figure>
+        <div class="chapter-head"><div class="badge hand">3</div><h2>Storage Devices &amp; Media</h2></div>
+        <p class="chapter-intro">Magnetic, solid-state and optical backing storage, plus cloud storage vs cloud computing.</p>
+
+        <h3>3.1 Magnetic Backing Storage</h3>
+        <p><span class="term">HDD</span> (Hard Disk Drive) — spinning magnetised platters, a read-write head and an actuator arm. Speed is measured in RPM; <span class="term">rotational latency</span> is the delay while the correct sector rotates under the head. <strong>Advantage:</strong> large capacity at low cost per GB. <strong>Disadvantage:</strong> moving parts are easily damaged by shocks or drops.</p>
+        <p>Other magnetic media: portable HDD (USB, for large backups), magnetic tape (low-cost, high-capacity, sequential-access — good for long-term archiving), and the legacy floppy disk.</p>
+
+        <h3>3.2 Solid-State Backing Storage</h3>
+        <p>Uses non-volatile NAND flash memory chips with zero moving parts: <strong>SSD</strong> (fast, durable), <strong>USB flash drive</strong> (portable, plug-and-play), and <strong>SD/XD/CFast memory cards</strong> used in cameras, phones and tablets.</p>
+
+        <h3>3.3 Optical Backing Storage</h3>
+        <p>A laser burns and reads microscopic pits and lands on a spiral track on a reflective disc.</p>
+        <ul>
+          <li><strong>CD</strong> — about 700 MB.</li>
+          <li><strong>DVD</strong> — about 4.7 GB, red laser; dual-layer DVDs have two reflective layers.</li>
+          <li><strong>Blu-ray</strong> — 25–50 GB, short-wavelength blue laser (405 nm) for tighter pit packing.</li>
+        </ul>
+        <p>Disc formats: <strong>-R</strong> (recordable once), <strong>-RW</strong> (rewritable), <strong>-ROM</strong> (read-only), <strong>DVD-RAM</strong> (simultaneous read/write, sector-based).</p>
+
+        <h3>3.4 Cloud Storage vs Cloud Computing</h3>
+        <div class="box note">
+          <h4>Don't mix these up</h4>
+          <p><strong>Cloud storage</strong> is like a virtual remote hard drive — a place where your files simply sit. <strong>Cloud computing</strong> is like a virtual computer (CPU + RAM + programs) that actively runs processing tasks and applications over the internet, without using your local hardware.</p>
+        </div>
+        <ul>
+          <li><strong>Public cloud</strong> — infrastructure owned by a third-party provider, open to public clients.</li>
+          <li><strong>Private cloud</strong> — dedicated infrastructure behind one company's own firewall.</li>
+          <li><strong>Hybrid cloud</strong> — combines public and private to balance security and cost.</li>
+        </ul>
+
+        <div class="recap">
+          <h4>Quick recap — Chapter 3</h4>
+          <ul class="checklist">
+            <li>State one advantage and one disadvantage of HDD storage</li>
+            <li>Explain why SSDs are more durable than HDDs</li>
+            <li>Order CD, DVD and Blu-ray by capacity and explain why Blu-ray holds more</li>
+            <li>Explain the difference between cloud storage and cloud computing in your own words</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- CHAPTER 4 -->
+      <section class="chapter" id="ch4">
+        <figure class="clipping">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Dlink%20wireless%20router.jpg" alt="A wireless router used to connect a LAN to the internet">
+          <figcaption>a router connects networks</figcaption>
+        </figure>
+        <div class="chapter-head"><div class="badge hand">4</div><h2>Networks &amp; the Effects of Using Them</h2></div>
+        <p class="chapter-intro">Network hardware, addressing, network types, security &amp; access control, anti-malware, and conferencing.</p>
+
+        <h3>4.1 Core Concepts</h3>
+        <p><span class="term">Network</span> — two or more devices connected to share data, resources and communication. <span class="term">Internet</span> — a global WAN connecting millions of devices. <span class="term">World Wide Web</span> — the collection of multimedia web pages hosted on web servers, following W3C standards.</p>
+
+        <h3>4.2 Network Hardware — learn what each device does</h3>
+        <div class="glossary">
+          <div class="g-item"><b>NIC</b><span>Hardware (card or chip) that connects a device to a network; carries a unique factory-set MAC address. Wired (Ethernet) or wireless (WNIC).</span></div>
+          <div class="g-item"><b>Hub</b><span>Non-intelligent — broadcasts every packet to all connected ports, causing unnecessary traffic and weaker security.</span></div>
+          <div class="g-item"><b>Switch</b><span>Reads the destination MAC address and forwards data only to the intended port — reduces traffic and improves security vs a hub.</span></div>
+          <div class="g-item"><b>Router</b><span>Connects two or more different networks (e.g. home LAN to the internet); reads IP addresses to choose the best route, and often assigns IPs via DHCP.</span></div>
+          <div class="g-item"><b>Bridge</b><span>Connects two segments of the same LAN using the same protocol; filters traffic by MAC address to reduce congestion.</span></div>
+          <div class="g-item"><b>Gateway</b><span>Connects two networks that use different protocols, translating data so they can communicate.</span></div>
+          <div class="g-item"><b>WAP</b><span>Wireless Access Point — converts wired signals into Wi-Fi so wireless devices can join a wired network.</span></div>
+          <div class="g-item"><b>Modem</b><span>Modulates/demodulates signals between the analogue phone/cable line and digital computer data.</span></div>
+        </div>
+
+        <h3>4.3 Network Addressing</h3>
+        <p><strong>IP address</strong> — the logical location of a device on a network. <strong>IPv4</strong> uses 32 bits, written in denary (e.g. 192.168.1.1). <strong>IPv6</strong> uses 128 bits, written in hexadecimal, to solve the shortage of IPv4 addresses.</p>
+        <p><strong>MAC address</strong> — uniquely identifies hardware, set at the factory. Built from 48 bits (6 hex pairs): the first 24 bits are the manufacturer ID, the last 24 bits are the device's serial number.</p>
+
+        <h3>4.4 Types of Networks</h3>
+        <ul>
+          <li><strong>WAN</strong> — covers a large area (cities, countries); fibre-optic, leased lines, satellites.</li>
+          <li><strong>WLAN</strong> — a wireless LAN, usually Wi-Fi over 2.4 GHz / 5.0 GHz radio waves.</li>
+          <li><strong>LAN</strong> — a small area (home, school, office), using switches or hubs.</li>
+          <li><strong>PAN</strong> — a very small personal range (~10 m), commonly Bluetooth.</li>
+        </ul>
+
+        <h3>4.5 Security &amp; Access Control</h3>
+        <p><strong>Biometrics</strong> (fingerprint, face, iris), <strong>physical tokens</strong> (smart cards, security keys, USB dongles), <strong>electronic tokens / OTP</strong> (one-time passcode via SMS, email or an app), and <strong>strong passwords</strong> (mixing upper/lowercase, numbers and symbols).</p>
+
+        <h3>4.6 Anti-Malware Software</h3>
+        <p><strong>Anti-virus</strong> — scans files against malware signature databases, quarantines suspicious files, and cleans infections. <strong>Firewall</strong> — hardware or software that monitors incoming/outgoing traffic against security rules.</p>
+
+        <h3>4.7 Electronic Conferencing</h3>
+        <p>Hardware needed: microphone (audio in), webcam (video in), speakers/headphones (audio out). Common platforms: Zoom, Google Meet, Microsoft Teams.</p>
+
+        <div class="box warn">
+          <h4>Common mix-up</h4>
+          <p>A <strong>hub</strong> broadcasts to everyone (dumb device); a <strong>switch</strong> sends only to the right device (smart device). A <strong>router</strong> connects different networks together and routes by IP address; a <strong>bridge</strong> connects two parts of the <em>same</em> network and filters by MAC address.</p>
+        </div>
+
+        <div class="recap">
+          <h4>Quick recap — Chapter 4</h4>
+          <ul class="checklist">
+            <li>Explain the difference between a hub and a switch</li>
+            <li>Explain the difference between a router and a bridge</li>
+            <li>Compare IPv4 and IPv6</li>
+            <li>Explain what a MAC address is and where it comes from</li>
+            <li>List the 4 network types by geographic size, smallest to largest</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- CHAPTER 5 -->
+      <section class="chapter" id="ch5">
+        <div class="chapter-head"><div class="badge hand">5</div><h2>The Effects of Using IT</h2></div>
+        <p class="chapter-intro">Microprocessor-controlled devices, health problems and their fixes, and physical safety hazards.</p>
+
+        <h3>5.1 Microprocessor-Controlled Devices</h3>
+        <p><strong>Positive impacts:</strong> saves time through automation, increases leisure time, allows remote control via apps, high convenience. <strong>Negative impacts:</strong> encourages a sedentary lifestyle, creates dependency on technology, and can cause a loss of manual skills (deskilling).</p>
+        <p>Examples: smart fridges that track and reorder food, smart heating that learns routines to save energy, automated smart security systems, and self-driving cars/drones that use sensors and microprocessors for safety and efficiency.</p>
+
+        <h3>5.2 Health Problems &amp; How to Fix Them</h3>
+        <table>
+          <caption>Health risks of ICT use</caption>
+          <tr><th>Problem</th><th>Cause</th><th>Fix</th></tr>
+          <tr><td><strong>RSI</strong> (Repetitive Strain Injury)</td><td>Repetitive typing or clicking</td><td>Ergonomic keyboard/mouse, wrist rests, regular breaks</td></tr>
+          <tr><td>Eye strain / headaches</td><td>Screen glare, flicker, staring too long</td><td>Anti-glare screens, the 20-20-20 rule, regular eye tests, good lighting</td></tr>
+          <tr><td>Back / neck ache</td><td>Poor posture, non-adjustable chairs</td><td>Adjustable ergonomic chair with lumbar support, footrest, monitor at eye level</td></tr>
+        </table>
+        <div class="box tip">
+          <h4>Exam tip — the 20-20-20 rule</h4>
+          <p>Every 20 minutes, look at something 20 feet away for 20 seconds. It's a favourite exact-detail answer CIE examiners look for when asking how to prevent eye strain.</p>
+        </div>
+
+        <h3>5.3 Physical Safety Hazards</h3>
+        <ul>
+          <li><strong>Trailing wires</strong> (tripping hazard) — use cable ducts, route cables under desks, use wireless where possible.</li>
+          <li><strong>Overloaded sockets</strong> (fire hazard) — avoid chaining extension blocks, install more wall sockets, keep tested fire extinguishers available.</li>
+          <li><strong>Heavy equipment</strong> (fall hazard) — use strong, stable desks, and keep devices away from desk edges.</li>
+        </ul>
+
+        <div class="recap">
+          <h4>Quick recap — Chapter 5</h4>
+          <ul class="checklist">
+            <li>Give one positive and one negative effect of microprocessor-controlled devices</li>
+            <li>Name 3 ICT-related health problems and how to prevent each one</li>
+            <li>Name 3 physical safety hazards in a computer room and their prevention</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- CHAPTER 6 -->
+      <section class="chapter" id="ch6">
+        <div class="chapter-head"><div class="badge hand">6</div><h2>ICT Applications</h2></div>
+        <p class="chapter-intro">Real-world systems: modelling, control, schools, booking, banking, medicine, expert systems, retail, recognition and satellites.</p>
+
+        <h3>6.1 Communication &amp; E-Publications</h3>
+        <p>Digital tools: email, video conferencing, VoIP, blogs, vlogs, wikis, social networks. <strong>E-publications</strong> (e-books, digital magazines, e-newsletters, PDFs) use responsive design, embedded multimedia, hyperlink navigation and screen-friendly sans-serif type. <strong>Advantages:</strong> cheap, portable, instantly updated. <strong>Disadvantages:</strong> needs a powered device, causes screen fatigue, risk of piracy, and a digital divide for those without access or skills.</p>
+
+        <h3>6.2 Modelling Applications</h3>
+        <p>Computer models simulate real systems safely and cheaply: financial forecasting, climate simulation, flight simulators (pilot training with no real risk), and weather forecasting.</p>
+
+        <h3>6.3 Computer-Controlled Systems</h3>
+        <div class="flow">
+          <div class="step">Sensor</div><div class="arrow">→</div><div class="step">ADC</div><div class="arrow">→</div>
+          <div class="step">Microprocessor compares to preset value</div><div class="arrow">→</div><div class="step">DAC</div><div class="arrow">→</div><div class="step">Actuator</div>
+        </div>
+        <p>Examples: automated greenhouses, central heating, traffic lights, chemical process plants.</p>
+
+        <h3>6.4–6.6 Schools, Booking &amp; Banking Systems</h3>
+        <ul>
+          <li><strong>School management</strong> — biometric/RFID attendance registration, performance tracking, and automated timetabling that avoids clashes.</li>
+          <li><strong>Booking systems</strong> — must process in real time to prevent double-booking: select seat → database temporarily locks it → payment confirmed → status updated to "booked".</li>
+          <li><strong>Banking</strong> — ATMs (PIN → verify → dispense cash → update balance), EFT (direct transfer between accounts), online banking (secured by encryption and TANs), and clearing (checking transactions between banks).</li>
+        </ul>
+
+        <h3>6.7–6.8 Medicine &amp; Expert Systems</h3>
+        <p><strong>Medicine:</strong> centralised patient records for instant history retrieval, sensor-based patient monitoring with automatic alarms, and high-tech imaging (MRI/CT) plus robotic surgery.</p>
+        <p><strong>Expert systems</strong> emulate a human expert's decision-making:</p>
+        <div class="glossary">
+          <div class="g-item"><b>User interface</b><span>Where the user types queries and views advice.</span></div>
+          <div class="g-item"><b>Inference engine</b><span>The "brain" that applies logical rules to inputs to reach conclusions.</span></div>
+          <div class="g-item"><b>Knowledge base</b><span>The repository of facts collected from human experts.</span></div>
+          <div class="g-item"><b>Rules base</b><span>The set of IF–THEN rules the inference engine applies.</span></div>
+        </div>
+        <p>Used for medical diagnosis, mineral prospecting, chess strategy and tax advice.</p>
+
+        <h3>6.9–6.11 Retail, Recognition &amp; Satellite Systems</h3>
+        <ul>
+          <li><strong>POS</strong> — scans barcode → looks up price → prints itemised bill → updates stock. <strong>EFTPOS</strong> links POS directly to the bank for instant card authorisation.</li>
+          <li><strong>ANPR</strong> — camera captures the plate → OCR converts the image to text → checked against a database.</li>
+          <li><strong>GPS</strong> — satellites broadcast time/location, needing signals from at least 3–4 satellites. <strong>GIS</strong> analyses layered geographic data. <strong>Remote sensing</strong> maps weather and deforestation from orbit.</li>
+        </ul>
+
+        <div class="recap">
+          <h4>Quick recap — Chapter 6</h4>
+          <ul class="checklist">
+            <li>Describe the 4 steps of a real-time booking system</li>
+            <li>Name the 4 components of an expert system</li>
+            <li>Describe what happens at a POS terminal, step by step</li>
+            <li>Explain how ANPR identifies a vehicle</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- CHAPTER 7 -->
+      <section class="chapter" id="ch7">
+        <div class="chapter-head"><div class="badge hand">7</div><h2>The Systems Life Cycle</h2></div>
+        <p class="chapter-intro">How a new ICT system is built: analysis, design, development &amp; testing, implementation, documentation, evaluation.</p>
+
+        <div class="flow">
+          <div class="step">1. Analysis</div><div class="arrow">→</div>
+          <div class="step">2. Design</div><div class="arrow">→</div>
+          <div class="step">3. Development &amp; Testing</div><div class="arrow">→</div>
+          <div class="step">4. Implementation</div><div class="arrow">→</div>
+          <div class="step">5. Documentation</div><div class="arrow">→</div>
+          <div class="step">6. Evaluation</div>
+        </div>
+
+        <h3>7.1 Analysis</h3>
+        <table>
+          <caption>Research methods for the current system</caption>
+          <tr><th>Method</th><th>Pros</th><th>Cons</th></tr>
+          <tr><td>Observation</td><td>Reveals actual operational reality</td><td>Workers may change behaviour when watched (Hawthorne effect)</td></tr>
+          <tr><td>Interviews</td><td>Detailed, qualitative insight</td><td>Time-consuming and costly</td></tr>
+          <tr><td>Questionnaires</td><td>Fast, cheap, reaches many users</td><td>Low response rate, no follow-up questions</td></tr>
+          <tr><td>Document examination</td><td>Shows the exact data requirements</td><td>Rigid — misses human/operational issues</td></tr>
+        </table>
+        <p>All findings feed into a <span class="term">Requirements Specification</span> — a document listing the hardware, software, user needs and constraints for the new system.</p>
+
+        <h3>7.2 Design</h3>
+        <p>Designers plan Data Flow Diagrams (DFDs), data capture forms, screen layouts, report layouts, validation/verification rules, data structures (file organisation, field names/types/lengths) and hardware/software specifications.</p>
+
+        <h3>7.3 Development &amp; Testing — the 4 data types</h3>
+        <div class="glossary">
+          <div class="g-item"><b>Normal data</b><span>Valid data inside the expected range, e.g. entering 55 for a mark out of 100.</span></div>
+          <div class="g-item"><b>Abnormal / erroneous data</b><span>Invalid data that validation should reject, e.g. "abc" or 150 for a mark.</span></div>
+          <div class="g-item"><b>Extreme data</b><span>Valid data right at the boundary, e.g. 0 or 100 for a mark.</span></div>
+          <div class="g-item"><b>Live data</b><span>Real data from the old system run through the new one to compare accuracy.</span></div>
+        </div>
+
+        <h3>7.4 Implementation — Changeover Methods</h3>
+        <table>
+          <caption>Changeover methods compared</caption>
+          <tr><th>Method</th><th>How it works</th><th>Advantage</th><th>Disadvantage</th></tr>
+          <tr><td><strong>Direct</strong></td><td>Old system stops; new one starts immediately</td><td>Immediate benefit, lowest cost</td><td>High risk — no fallback if it fails</td></tr>
+          <tr><td><strong>Parallel</strong></td><td>Old and new run side-by-side for a period</td><td>Safe — old system is a full backup</td><td>Expensive, duplicate data entry</td></tr>
+          <tr><td><strong>Pilot</strong></td><td>New system tested in one branch first</td><td>Failure only affects that branch</td><td>Delays full rollout</td></tr>
+          <tr><td><strong>Phased</strong></td><td>Introduced module by module</td><td>Errors stay isolated to one module</td><td>Very slow; integration issues between modules</td></tr>
+        </table>
+
+        <h3>7.5 Documentation</h3>
+        <p><strong>User documentation</strong> — for end-users: installation, requirements, saving/printing, error handling, FAQs. <strong>Technical documentation</strong> — for programmers/analysts: source code, algorithms, flowcharts, field definitions, validation rules.</p>
+
+        <h3>7.6 Evaluation</h3>
+        <p>Compare the finished system against the original Requirements Specification, identify limitations and future improvements, gather user feedback, and compare performance against the old system.</p>
+
+        <div class="box tip">
+          <h4>Exam tip</h4>
+          <p>If a scenario asks you to choose a changeover method, always justify with risk vs cost: parallel running is safest but most expensive; direct changeover is cheapest but riskiest.</p>
+        </div>
+
+        <div class="recap">
+          <h4>Quick recap — Chapter 7</h4>
+          <ul class="checklist">
+            <li>Recite the 6 stages of the Systems Life Cycle in order</li>
+            <li>Give one advantage and one disadvantage of interviews vs questionnaires</li>
+            <li>Define normal, abnormal, extreme and live test data with an example each</li>
+            <li>Compare direct, parallel, pilot and phased changeover</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- CHAPTER 8 -->
+      <section class="chapter" id="ch8">
+        <figure class="clipping">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Internet%20Security%20Padlock%20for%20VPN%20%26%20Online%20Privacy.jpg" alt="A padlock symbolising internet and data security">
+          <figcaption>keeping data secure</figcaption>
+        </figure>
+        <div class="chapter-head"><div class="badge hand">8</div><h2>Safety &amp; Security</h2></div>
+        <p class="chapter-intro">Physical safety, the Data Protection Act, e-safety, and — in full detail — every major security threat and how systems repair and defend against them.</p>
+
+        <h3>8.1 Physical Security &amp; Safety Hazards</h3>
+        <p><strong>Physical security methods:</strong> key/electronic locks, CCTV, biometric access control, security guards, and hardware anchoring (cable locks, floor/desk mounts).</p>
+        <table>
+          <caption>Physical safety hazards and prevention</caption>
+          <tr><th>Risk</th><th>Cause</th><th>Prevention</th></tr>
+          <tr><td>Electrocution</td><td>Spilt liquids, exposed/damaged wires, unsafe sockets</td><td>Ban drinks in computer rooms; use circuit breakers (RCBs); inspect wiring and insulation</td></tr>
+          <tr><td>Fire hazard</td><td>Overloaded sockets, blocked vents/dust, short circuits</td><td>More sockets, no daisy-chained extensions; clear vents; ventilate the room; keep tested extinguishers ready</td></tr>
+          <tr><td>Tripping hazard</td><td>Trailing wires, damaged flooring</td><td>Cable ducts, route cables under desks, use wireless where possible</td></tr>
+          <tr><td>Personal injury</td><td>Heavy equipment falling from unstable desks</td><td>Strong, sturdy desks; keep equipment away from desk edges</td></tr>
+        </table>
+
+        <h3>8.2 Data Protection &amp; E-Safety</h3>
+        <p><strong>Data Protection Act — 4 key rules:</strong></p>
+        <ol>
+          <li>Data must be accurate and up to date.</li>
+          <li>Data must not be kept longer than necessary.</li>
+          <li>Data must be fairly and lawfully processed.</li>
+          <li>Data must be kept secure against unauthorised processing, loss or damage.</li>
+        </ol>
+        <p><span class="term">Personal data</span> identifies a living individual (name, address, email, date of birth). <span class="term">Sensitive personal data</span> needs extra protection (political views, religion, criminal record, biometric data).</p>
+        <p><strong>E-safety guidelines:</strong> never share personal details online; use strict privacy settings; block/report cyberbullies; only add people you actually know; check for the padlock/<code>https://</code> on websites; be wary of email attachments and phishing links.</p>
+
+        <h3>8.3 Security of Data — threats, and how each is repaired/prevented</h3>
+        <p>This is the section most exam questions expect in full detail: name the threat, explain <em>how</em> it works, and state the specific prevention or repair method.</p>
+        <div class="glossary">
+          <div class="g-item"><b>Hacking</b><span>Unauthorised access to a system. Repaired/prevented by firewalls, strong passwords and user access controls.</span></div>
+          <div class="g-item"><b>Phishing</b><span>Fake emails trick users into giving up credentials. Prevented by user training and checking the sender's email domain is genuine.</span></div>
+          <div class="g-item"><b>Pharming</b><span>Malicious code silently redirects users to a fake website. Prevented by up-to-date anti-malware and checking for HTTPS/the padlock icon.</span></div>
+          <div class="g-item"><b>Smishing / Vishing</b><span>Phishing carried out by SMS text message (smishing) or a phone call (vishing).</span></div>
+          <div class="g-item"><b>Malware</b><span>Viruses, spyware and ransomware. Prevented by anti-virus software and avoiding unknown links/downloads.</span></div>
+        </div>
+        <table>
+          <caption>Types of malware — repair and defence starts with knowing which one you have</caption>
+          <tr><th>Malware</th><th>How it behaves</th></tr>
+          <tr><td><strong>Virus</strong></td><td>Replicates itself to delete or corrupt files; needs an active host program or infected OS to run.</td></tr>
+          <tr><td><strong>Worm</strong></td><td>Stand-alone; replicates and spreads on its own across networks that have weak security.</td></tr>
+          <tr><td><strong>Trojan horse</strong></td><td>Malicious code disguised as legitimate software, which it replaces or embeds itself into.</td></tr>
+          <tr><td><strong>Spyware</strong></td><td>Secretly monitors activity and sends data to the attacker, often including keylogging.</td></tr>
+          <tr><td><strong>Adware</strong></td><td>Floods the system with unwanted pop-ups and may redirect the browser to advert sites.</td></tr>
+          <tr><td><strong>Ransomware</strong></td><td>Encrypts the victim's files and demands payment for the decryption key — usually delivered via a Trojan.</td></tr>
+        </table>
+        <div class="box warn">
+          <h4>How anti-virus software repairs an infected file</h4>
+          <p>Anti-virus software works in three stages: it <strong>scans</strong> files against a database of known malware signatures, <strong>quarantines</strong> any suspicious file so it cannot run or spread, and then either <strong>cleans/repairs</strong> the file by removing the malicious code, or deletes it if it cannot be safely repaired. Keeping the signature database updated is essential, because it can only recognise threats it already knows about.</p>
+        </div>
+
+        <h3>8.3.2 Protection &amp; Authentication Methods</h3>
+        <div class="glossary">
+          <div class="g-item"><b>Biometrics</b><span>Uses a unique physical trait — fingerprint, face or iris — to confirm identity.</span></div>
+          <div class="g-item"><b>Digital certificate</b><span>A public/private cryptographic key pair used to authenticate identity and secure communication.</span></div>
+          <div class="g-item"><b>SSL</b><span>Secure Sockets Layer — a protocol that encrypts network traffic for safe transmission over the internet.</span></div>
+          <div class="g-item"><b>Encryption</b><span>Converts readable plaintext into unreadable ciphertext using a key, to stop unauthorised access in transit or storage.</span></div>
+          <div class="g-item"><b>2FA</b><span>Two-Factor Authentication — two separate proofs of identity, e.g. a password plus a one-time passcode.</span></div>
+        </div>
+        <p><strong>Card fraud:</strong> card cloning (copying card details) and shoulder surfing (watching someone type their PIN).</p>
+
+        <div class="recap">
+          <h4>Quick recap — Chapter 8</h4>
+          <ul class="checklist">
+            <li>State the 4 rules of the Data Protection Act</li>
+            <li>Explain the difference between phishing and pharming</li>
+            <li>Describe how a virus differs from a worm and a Trojan horse</li>
+            <li>Explain the 3 stages anti-virus software uses to deal with an infected file</li>
+            <li>Explain what 2FA and SSL each protect against</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- CHAPTER 9 -->
+      <section class="chapter" id="ch9">
+        <div class="chapter-head"><div class="badge hand">9</div><h2>Audiences</h2></div>
+        <p class="chapter-intro">Tailoring ICT work to who will actually read, watch or use it — plus copyright and plagiarism.</p>
+
+        <h3>9.1 Audience Appreciation</h3>
+        <ul>
+          <li><strong>Age</strong> — young children need bright colours, simple vocabulary and large text; adults/professionals need structured, data-driven layouts.</li>
+          <li><strong>Target group</strong> — specific interests, language ability and digital literacy level.</li>
+          <li><strong>Context</strong> — a formal business presentation needs a different style to a casual blog or social post.</li>
+        </ul>
+        <p><strong>When writing a presentation, consider:</strong> the language used, how much multimedia to include, the length, how much audience participation is invited, and whether practical examples are used to illustrate points.</p>
+        <p><strong>Audience characteristics to plan for:</strong> age range, income level, specific interests, disabilities (visual/auditory), and the different expectations of children, adults and older people.</p>
+
+        <h3>9.2 Copyright &amp; Plagiarism</h3>
+        <div class="glossary">
+          <div class="g-item"><b>Copyright</b><span>Protects original creative work — music, films, articles, books — from being copied without permission.</span></div>
+          <div class="g-item"><b>Licence</b><span>Legal permission to install and run a piece of software.</span></div>
+          <div class="g-item"><b>Piracy</b><span>Unauthorised copying, distribution or use of copyrighted software.</span></div>
+          <div class="g-item"><b>Plagiarism</b><span>Copying someone else's work, ideas or text and presenting it as your own without acknowledgement.</span></div>
+        </div>
+        <p>Product keys and holograms are used as security controls to verify that a software installation is genuine.</p>
+
+        <div class="recap">
+          <h4>Quick recap — Chapter 9</h4>
+          <ul class="checklist">
+            <li>List 3 factors to consider about your audience before designing a document</li>
+            <li>Explain the difference between copyright and plagiarism</li>
+            <li>Explain what a software licence gives you permission to do</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- CHAPTER 10 -->
+      <section class="chapter" id="ch10">
+        <div class="chapter-head"><div class="badge hand">10</div><h2>Communication</h2></div>
+        <p class="chapter-intro">Email, the internet vs the World Wide Web, web platforms, protocols, and staying safe online.</p>
+
+        <h3>10.1 Communicating by Email</h3>
+        <p><strong>Internet</strong> is a global public network of networks; an <strong>intranet</strong> is a private internal network for one organisation only (e.g. a school portal).</p>
+        <p><strong>Email structure:</strong> To, CC (Carbon Copy), BCC (Blind Carbon Copy — hides recipients from each other), Subject, message body, attachments.</p>
+        <p><strong>Netiquette:</strong> use appropriate language, never type in ALL CAPS (it reads as shouting), keep messages concise, and respect other people's privacy.</p>
+
+        <h3>10.2 Effective Use of the Internet</h3>
+        <table>
+          <caption>Internet vs World Wide Web</caption>
+          <tr><th>Internet</th><th>World Wide Web (WWW)</th></tr>
+          <tr><td>The global network of interconnected networks and devices</td><td>A collection of multimedia web pages hosted on websites</td></tr>
+          <tr><td>Uses TCP/IP</td><td>Uses HTTP/HTTPS to transmit HTML documents</td></tr>
+          <tr><td>Carries email, chat, FTP file transfer</td><td>Uses URLs to locate web pages</td></tr>
+          <tr><td>The underlying physical network infrastructure</td><td>Accessed through web browser software</td></tr>
+        </table>
+        <p><strong>Web platforms:</strong> Blogs (personal online journals), Wikis (collaborative, editable pages), Social networking sites (profiles and shared media), Forums (threaded discussion boards).</p>
+        <p><strong>Navigating the internet:</strong> an <span class="term">ISP</span> provides your connection; a <span class="term">web browser</span> lets you view pages; a <span class="term">search engine</span> searches an index of websites for your keywords. Use quotation marks for an exact phrase and <code>AND</code>/<code>OR</code>/<code>NOT</code> as logical search operators.</p>
+        <div class="box tip">
+          <h4>Evaluating whether a website is reliable</h4>
+          <ul style="margin-bottom:0;">
+            <li>Check the domain — <code>.gov</code> and <code>.edu</code> are generally more authoritative</li>
+            <li>Verify the author's credentials</li>
+            <li>Watch for spelling and grammar errors</li>
+            <li>Check when the page was last updated</li>
+            <li>Cross-reference the facts against other trusted sources</li>
+          </ul>
+        </div>
+        <p><strong>URL structure:</strong> <code>protocol://website address/path/filename</code></p>
+
+        <h3>Communication Protocols</h3>
+        <div class="glossary">
+          <div class="g-item"><b>IP</b><span>Internet Protocol — directs and routes data packets across networks.</span></div>
+          <div class="g-item"><b>POP</b><span>Post Office Protocol — used by email clients to retrieve email from a mail server.</span></div>
+          <div class="g-item"><b>FTP</b><span>File Transfer Protocol — transfers files between computers over a network.</span></div>
+          <div class="g-item"><b>HTTP</b><span>Hypertext Transfer Protocol — transmits web page data across the internet.</span></div>
+          <div class="g-item"><b>VOIP</b><span>Voice over Internet Protocol — carries voice/audio calls over an IP network.</span></div>
+          <div class="g-item"><b>SSL</b><span>Secure Sockets Layer — encrypts data sent over the internet.</span></div>
+        </div>
+
+        <div class="box warn">
+          <h4>Internet risks to remember</h4>
+          <p>Malware, phishing scams, unauthorised network access, pharming and cyberbullying are the risks CIE most often asks you to identify and suggest a prevention for — link each one back to the specific defence covered in Chapter 8.</p>
+        </div>
+
+        <div class="recap">
+          <h4>Quick recap — Chapter 10</h4>
+          <ul class="checklist">
+            <li>Explain the difference between the internet and the World Wide Web</li>
+            <li>List the 4 parts of an email and what each one is for</li>
+            <li>Name 3 ways to check if a website is reliable</li>
+            <li>Match each protocol (IP, POP, FTP, HTTP, VOIP, SSL) to what it is used for</li>
+          </ul>
+        </div>
+      </section>
+
+      <footer>
+        <div class="hand">Good luck in your exam — you've got this! 📓</div>
+        <p style="margin-top:10px;">ICT CIE 0417 Exam Notebook · created and prepared by <strong>Tr. Wai Lin Htet</strong></p>
+      </footer>
+
+    </div>
+  </main>
+</div>
+
+<script>
+  // Highlight the active chapter link on scroll
+  const links = document.querySelectorAll('#sideNav a');
+  const sections = Array.from(links).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  function onScroll(){
+    let current = sections[0];
+    const y = window.scrollY + 140;
+    for(const sec of sections){
+      if(sec.offsetTop <= y) current = sec;
+    }
+    links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current.id));
+  }
+  document.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+</script>
+
+<script>
+  // ===== Gated Entrance & Local Attendance Tracking =====
+  (function(){
+    const STORE_KEY = 'ict0417_users';
+    const SESSION_KEY = 'ict0417_session';
+
+    // Google Apps Script Web App URL
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbweswRLHak84m6MkD8DrvxorOaH_ajSIut1uhAitFJDnF1Mrhg_m-vc7nfXaD7ibMBn/exec';
+
+    function logVisit(name, username, event){
+      if(!SCRIPT_URL) return;
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          name: name,
+          username: username,
+          timestamp: new Date().toISOString(),
+          event: event
+        })
+      }).catch(function(err){ console.warn('Attendance log failed:', err); });
+    }
+
+    const overlay = document.getElementById('authOverlay');
+    const userBox = document.getElementById('authUserBox');
+    const userNameEl = document.getElementById('authUserName');
+    const avatarEl = document.getElementById('authAvatar');
+    const logoutBtn = document.getElementById('authLogoutBtn');
+    const tabs = document.querySelectorAll('.auth-tab');
+    const forms = { register: document.getElementById('registerForm'), login: document.getElementById('loginForm') };
+    const loginMsg = document.getElementById('loginMsg');
+    const regMsg = document.getElementById('regMsg');
+
+    function getUsers(){
+      try{ return JSON.parse(localStorage.getItem(STORE_KEY)) || []; }
+      catch(e){ return []; }
+    }
+    function saveUsers(list){ localStorage.setItem(STORE_KEY, JSON.stringify(list)); }
+    function simpleHash(str){
+      let h = 0;
+      for(let i=0;i<str.length;i++){ h = ((h<<5)-h) + str.charCodeAt(i); h |= 0; }
+      return String(h);
+    }
+    function showMsg(el, text, ok){
+      el.textContent = text;
+      el.className = 'auth-msg show ' + (ok ? 'ok' : 'err');
+    }
+
+    function unlockPage(name){
+      overlay.style.display = 'none';
+      userBox.style.display = 'flex';
+      userNameEl.textContent = name;
+      avatarEl.textContent = name.trim().charAt(0).toUpperCase() || '?';
+    }
+
+    function lockPage(){
+      overlay.style.display = 'flex';
+      userBox.style.display = 'none';
+    }
+
+    // Tab Switcher
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        Object.values(forms).forEach(f => f.classList.remove('active'));
+        forms[tab.dataset.tab].classList.add('active');
+      });
+    });
+
+    // Handle Registration
+    forms.register.addEventListener('submit', function(e){
+      e.preventDefault();
+      const name = document.getElementById('regName').value.trim();
+      const username = document.getElementById('regUser').value.trim().toLowerCase();
+      const pass = document.getElementById('regPass').value;
+      const btn = document.getElementById('regSubmitBtn');
+
+      if(!name || !username || !pass){
+        showMsg(regMsg, 'အကွက်အားလုံးကို ဖြည့်စွက်ပေးပါ။', false); return;
+      }
+      const users = getUsers();
+      if(users.some(u => u.username === username)){
+        showMsg(regMsg, 'Username ရှိပြီးသားဖြစ်နေပါသည် — Login တက်ဘ်တွင် ဝင်ပေးပါ။', false); return;
+      }
+
+      btn.innerText = 'မှတ်တမ်းတင်နေပါသည်...';
+      btn.disabled = true;
+
+      users.push({ name, username, passHash: simpleHash(pass) });
+      saveUsers(users);
+      localStorage.setItem(SESSION_KEY, JSON.stringify({ name, username }));
+      logVisit(name, username, 'register');
+      showMsg(regMsg, 'စာရင်းသွင်းပြီးပါပြီ။ မင်္ဂလာပါ ' + name + '!', true);
+
+      setTimeout(() => {
+        btn.innerText = 'စာဖတ်ရန် ဝင်မည်';
+        btn.disabled = false;
+        unlockPage(name);
+      }, 600);
+    });
+
+    // Handle Login
+    forms.login.addEventListener('submit', function(e){
+      e.preventDefault();
+      const username = document.getElementById('loginUser').value.trim().toLowerCase();
+      const pass = document.getElementById('loginPass').value;
+      const users = getUsers();
+      const found = users.find(u => u.username === username);
+
+      if(!found || found.passHash !== simpleHash(pass)){
+        showMsg(loginMsg, 'Username သို့မဟုတ် password မှားယွင်းနေပါသည်။', false); return;
+      }
+
+      localStorage.setItem(SESSION_KEY, JSON.stringify({ name: found.name, username: found.username }));
+      logVisit(found.name, found.username, 'login');
+      showMsg(loginMsg, 'Welcome back, ' + found.name + '!', true);
+
+      setTimeout(() => {
+        unlockPage(found.name);
+      }, 500);
+    });
+
+    // Logout Action
+    logoutBtn.addEventListener('click', function(){
+      localStorage.removeItem(SESSION_KEY);
+      lockPage();
+    });
+
+    // Page Load Authentication Check
+    let session = null;
+    try{ session = JSON.parse(localStorage.getItem(SESSION_KEY)); }catch(e){ session = null; }
+    if(session && session.name){
+      unlockPage(session.name);
+      logVisit(session.name, session.username, 'return-visit');
+    } else {
+      lockPage();
+    }
+  })();
+</script>
+</body>
+</html>
