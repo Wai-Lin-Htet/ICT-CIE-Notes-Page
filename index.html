@@ -1189,6 +1189,7 @@
   (function(){
     const STORE_KEY = 'ict0417_users';
     const SESSION_KEY = 'ict0417_session';
+    const MASTER_KEY = 'ict0417'; // Direct access bypass code (no registration required)
 
     // Google Apps Script Web App URL
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbweswRLHak84m6MkD8DrvxorOaH_ajSIut1uhAitFJDnF1Mrhg_m-vc7nfXaD7ibMBn/exec';
@@ -1256,63 +1257,85 @@
     });
 
     // Handle Registration
-    forms.register.addEventListener('submit', function(e){
-      e.preventDefault();
-      const name = document.getElementById('regName').value.trim();
-      const username = document.getElementById('regUser').value.trim().toLowerCase();
-      const pass = document.getElementById('regPass').value;
-      const btn = document.getElementById('regSubmitBtn');
+    if(forms.register){
+      forms.register.addEventListener('submit', function(e){
+        e.preventDefault();
+        const name = document.getElementById('regName').value.trim();
+        const username = document.getElementById('regUser').value.trim().toLowerCase();
+        const pass = document.getElementById('regPass').value;
+        const btn = document.getElementById('regSubmitBtn');
 
-      if(!name || !username || !pass){
-        showMsg(regMsg, 'အကွက်အားလုံးကို ဖြည့်စွက်ပေးပါ။', false); return;
-      }
-      const users = getUsers();
-      if(users.some(u => u.username === username)){
-        showMsg(regMsg, 'Username ရှိပြီးသားဖြစ်နေပါသည် — Login တက်ဘ်တွင် ဝင်ပေးပါ။', false); return;
-      }
+        if(!name || !username || !pass){
+          showMsg(regMsg, 'Please fill in all fields.', false); return;
+        }
+        const users = getUsers();
+        if(users.some(u => u.username === username)){
+          showMsg(regMsg, 'Username already exists — please log in.', false); return;
+        }
 
-      btn.innerText = 'မှတ်တမ်းတင်နေပါသည်...';
-      btn.disabled = true;
+        btn.innerText = 'Registering...';
+        btn.disabled = true;
 
-      users.push({ name, username, passHash: simpleHash(pass) });
-      saveUsers(users);
-      localStorage.setItem(SESSION_KEY, JSON.stringify({ name, username }));
-      logVisit(name, username, 'register');
-      showMsg(regMsg, 'စာရင်းသွင်းပြီးပါပြီ။ မင်္ဂလာပါ ' + name + '!', true);
+        users.push({ name, username, passHash: simpleHash(pass) });
+        saveUsers(users);
+        localStorage.setItem(SESSION_KEY, JSON.stringify({ name, username }));
+        logVisit(name, username, 'register');
+        showMsg(regMsg, 'Registration successful. Welcome, ' + name + '!', true);
 
-      setTimeout(() => {
-        btn.innerText = 'စာဖတ်ရန် ဝင်မည်';
-        btn.disabled = false;
-        unlockPage(name);
-      }, 600);
-    });
+        setTimeout(() => {
+          btn.innerText = 'Proceed to Content';
+          btn.disabled = false;
+          unlockPage(name);
+        }, 600);
+      });
+    }
 
-    // Handle Login
+    // Handle Login (Modified for Master Passcode "ict0417")
     forms.login.addEventListener('submit', function(e){
       e.preventDefault();
-      const username = document.getElementById('loginUser').value.trim().toLowerCase();
-      const pass = document.getElementById('loginPass').value;
+      const rawUser = document.getElementById('loginUser').value.trim();
+      const username = rawUser.toLowerCase();
+      const pass = document.getElementById('loginPass').value.trim();
       const users = getUsers();
       const found = users.find(u => u.username === username);
 
-      if(!found || found.passHash !== simpleHash(pass)){
-        showMsg(loginMsg, 'Username သို့မဟုတ် password မှားယွင်းနေပါသည်။', false); return;
+      // 1. Direct bypass with master key "ict0417"
+      if(pass === MASTER_KEY || username === MASTER_KEY){
+        const displayName = rawUser && username !== MASTER_KEY ? rawUser : 'Guest Student';
+        const finalUsername = username || 'guest_user';
+
+        localStorage.setItem(SESSION_KEY, JSON.stringify({ name: displayName, username: finalUsername }));
+        logVisit(displayName, finalUsername, 'quick-login');
+        showMsg(loginMsg, 'Welcome, ' + displayName + '!', true);
+
+        setTimeout(() => {
+          unlockPage(displayName);
+        }, 400);
+        return;
       }
 
-      localStorage.setItem(SESSION_KEY, JSON.stringify({ name: found.name, username: found.username }));
-      logVisit(found.name, found.username, 'login');
-      showMsg(loginMsg, 'Welcome back, ' + found.name + '!', true);
+      // 2. Standard registered user verification
+      if(found && found.passHash === simpleHash(pass)){
+        localStorage.setItem(SESSION_KEY, JSON.stringify({ name: found.name, username: found.username }));
+        logVisit(found.name, found.username, 'login');
+        showMsg(loginMsg, 'Welcome back, ' + found.name + '!', true);
 
-      setTimeout(() => {
-        unlockPage(found.name);
-      }, 500);
+        setTimeout(() => {
+          unlockPage(found.name);
+        }, 400);
+        return;
+      }
+
+      showMsg(loginMsg, 'Invalid username or password. (Access Code: ict0417)', false);
     });
 
     // Logout Action
-    logoutBtn.addEventListener('click', function(){
-      localStorage.removeItem(SESSION_KEY);
-      lockPage();
-    });
+    if(logoutBtn){
+      logoutBtn.addEventListener('click', function(){
+        localStorage.removeItem(SESSION_KEY);
+        lockPage();
+      });
+    }
 
     // Page Load Authentication Check
     let session = null;
